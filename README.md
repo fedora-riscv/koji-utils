@@ -38,5 +38,5 @@
 - `bash scan-dep.sh -t f38-build-side-42-init-devel -r "php\(api\) = 20210902-64" -s "^php-" -p openkoji -c 4 -b f38 --output php-exe-rebuild-list.txt` \
   解释：脚本先使用koji命令（koji命令自动包含koji -p openkoji，即使用openkoji的profile）筛选`f38-build-side-42-init-devel` tag中的所有包，再筛选出包名匹配正则表达式`^php-`的包（即php-开头），而后开启4线程查找这其中是否有包的Requires中存在依赖名匹配正则表达式`php\(api\) = 20210902-64`的包，如果有，则克隆Fedora Source上的Git仓库，并切换到f38分支后向koji提交SRPM，且该包名追加写入php-exe-rebuild-list.txt的文件
 
-- `bash scan-dep.sh -t f38-build-side-42-init-devel -r "libminiz\.so\.0\.2" -s "^perl-" -p openkoji -c 1 --timeout 10 --nobuild` \
+- `bash scan-dep.sh -t f38-build-side-42-init-devel -r "libminiz\.so\.0\.2" -s "^perl-" -p openkoji -c 1 --timeout 10 --nobuild -b f38` \
   解释：除了上述例子里已经解释的参数外，--timeout则设置了curl超时时间为10秒，--nobuild则指定程序在查到符合条件的包时不会自动提交rebuild，且没有--output参数时，符合条件的包不会被写入本地文件

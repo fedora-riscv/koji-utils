@@ -91,6 +91,8 @@ url_root="http://openkoji.iscas.ac.cn/koji"
 thread=4
 timeout=5
 
+[ $# -eq 0 ] && show_help && exit 1
+
 while (( "$#" )); do
   case "$1" in
     --tag|-t)
@@ -144,8 +146,8 @@ while (( "$#" )); do
       shift
       break
       ;;
-    -*|--*=)
-      echo "Error: Unsupported flag $1" >&2
+    *)
+      echo "Error: Unsupported parameters $1" >&2
       show_help
       exit 1
       ;;
@@ -153,7 +155,6 @@ while (( "$#" )); do
 done
 
 check_requirements
-[ $# -eq 0 ] && show_help && exit 1
 [ -z "$requires" ] && echo "Please specify the regex for requires!" && show_help && exit 1
 [ -z "$branch" ] && echo "Please specify the branch of the repo!" && show_help && exit 1
 [ -z "$tag" ] || tag_param="--tag $tag"
